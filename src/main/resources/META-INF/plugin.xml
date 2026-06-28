@@ -1,0 +1,39 @@
+<idea-plugin>
+    <id>com.akovalenko.obsidian-toolbar</id>
+    <name>Open in Obsidian</name>
+    <version>1.0</version>
+    <vendor>akovalenko</vendor>
+
+    <description><![CDATA[
+        <p>Open the current file's matching <a href="https://obsidian.md">Obsidian</a> note with one click.</p>
+
+        <p>If your project root contains an <code>.obsidian</code> folder, it is treated as an Obsidian vault.
+        The toolbar button finds the <code>.md</code> file in the vault whose name matches the file currently
+        open in the editor and opens it in Obsidian. If no matching note is found, opens the vault instead.</p>
+
+        <p>The button is disabled when the current project is not an Obsidian vault or no file is open in the editor.
+        Also available via <b>Find Action</b> (<code>⌘⇧A</code> / <code>Ctrl+Shift+A</code>).</p>
+
+        <p><b>Note:</b> On first use, the plugin offers to install a helper script
+        (<code>open-obsidian-vault</code>) to <code>~/bin/</code>. The script is not removed
+        automatically when the plugin is uninstalled — delete it manually if needed.</p>
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <postStartupActivity implementation="com.akovalenko.obsidian.ObsidianStartupActivity"/>
+        <notificationGroup id="Open in Obsidian" displayType="BALLOON"/>
+    </extensions>
+
+    <actions>
+        <action id="OpenObsidianNote"
+                class="com.akovalenko.obsidian.OpenObsidianNoteAction"
+                text="Open Note in Obsidian"
+                description="Open matching note in Obsidian, or vault if no note found"
+                icon="/icons/obsidian-note.svg">
+            <add-to-group group-id="MainToolBar" anchor="last"/>
+            <add-to-group group-id="NavBarToolBar" anchor="last"/>
+        </action>
+    </actions>
+</idea-plugin>

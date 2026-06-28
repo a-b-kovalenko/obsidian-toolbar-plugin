@@ -1,0 +1,6 @@
+.gradle/
+build/
+.workspace/
+.env
+private.pem
+chain.crt
