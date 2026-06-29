@@ -32,9 +32,16 @@ kotlin {
 
 intellijPlatform {
     signing {
-        privateKey = providers.environmentVariable("SIGNING_KEY")
-        certificateChain = providers.environmentVariable("SIGNING_CERT")
-        password = providers.environmentVariable("SIGNING_KEY_PASSPHRASE")
+        val keyFile = file("private.pem")
+        val certFile = file("chain.crt")
+        if (keyFile.exists() && certFile.exists()) {
+            privateKeyFile.set(keyFile)
+            certificateChainFile.set(certFile)
+        } else {
+            privateKey.set(providers.environmentVariable("SIGNING_KEY"))
+            certificateChain.set(providers.environmentVariable("SIGNING_CERT"))
+        }
+        password.set(providers.environmentVariable("SIGNING_KEY_PASSPHRASE"))
     }
     publishing {
         token = providers.environmentVariable("PUBLISH_TOKEN")
@@ -45,5 +52,8 @@ tasks {
     buildSearchableOptions { enabled = false }
     withType<JavaCompile> {
         options.release.set(21)
+    }
+    verifyPluginSignature {
+        dependsOn(signPlugin)
     }
 }
