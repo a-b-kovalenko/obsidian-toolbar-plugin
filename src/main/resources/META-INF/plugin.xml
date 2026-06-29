@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.akovalenko.obsidian-toolbar</id>
     <name>Open in Obsidian</name>
-    <version>1.0</version>
+    <version>1.1</version>
     <vendor>akovalenko</vendor>
 
     <description><![CDATA[

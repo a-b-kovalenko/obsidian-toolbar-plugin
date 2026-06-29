@@ -11,9 +11,12 @@ IntelliJ IDEA plugin (Kotlin + Gradle) that adds one toolbar button and two acti
 ```bash
 ./gradlew runIde        # launch sandbox IDE with the plugin installed (main dev loop)
 ./gradlew buildPlugin   # produce distributable .zip in build/distributions/
+./gradlew signPlugin    # produce signed .zip (needs SIGNING_KEY / SIGNING_CERT / SIGNING_KEY_PASSPHRASE env vars, or local private.pem + chain.crt files)
 ./gradlew build         # compile + check
 ./gradlew verifyPlugin  # validate plugin structure against IntelliJ requirements
 ```
+
+**Versioning:** always bump `version` in **both** `build.gradle.kts` and `src/main/resources/META-INF/plugin.xml` before publishing to the Marketplace. Forgetting either will cause a publish error.
 
 Install built plugin: Settings → Plugins → ⚙ → Install Plugin from Disk → pick the `.zip`.
 
@@ -23,7 +26,7 @@ Source files in `src/main/kotlin/com/akovalenko/obsidian/`:
 
 - **`OpenObsidianNoteAction`** — the single `AnAction`. `update()` enables the button when the project root contains `.obsidian/` and a file is open in the editor. `actionPerformed()` calls `findNote()` (walks vault tree for a `.md` whose `nameWithoutExtension` matches the current file); opens `obsidian://open?vault=<name>&file=<relative>` if found, falls back to `obsidian://open?vault=<name>`. Internal helpers: `vaultRoot(e)`, `vaultRoot(dir)`, `findNote`, `openVault`, `openNote`, `encode`. Registered in `MainToolBar` + `NavBarToolBar`.
 
-- **`ObsidianStartupActivity`** (`ProjectActivity`) — runs on every project open. (1) If `~/bin/open-obsidian-vault` is absent, shows a balloon offering to install the bundled helper script. (2) Reads `customization.xml`; if `"OpenObsidianNote"` is not present, adds the action to `"root" → "Main Toolbar" → "Right"` via `CustomActionsSchema.addAction(ActionUrl(...))` and shows a "Restart IDE" balloon. Handles the case where the user customised the toolbar before installing — `add-to-group` in `plugin.xml` is ignored for such users.
+- **`ObsidianStartupActivity`** (`ProjectActivity`) — runs on every project open. If `~/bin/open-obsidian-vault` is absent, shows a balloon offering to install the bundled helper script. The toolbar button is registered declaratively via `plugin.xml` (`add-to-group`); no programmatic toolbar injection is used (internal `CustomActionsSchema`/`ActionUrl` APIs were removed to satisfy Marketplace requirements).
 
 - **`ScriptInstaller`** — copies `resources/scripts/open-obsidian-vault` to `~/bin/` and marks it executable.
 

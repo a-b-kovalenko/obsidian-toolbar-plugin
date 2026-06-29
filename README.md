@@ -17,7 +17,7 @@ Install from [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/com.ak
 
 ## Requirements
 
-- IntelliJ IDEA 2025.1 or later
+- IntelliJ IDEA 2026.1 or later
 - macOS (uses `open` command to launch Obsidian)
 - An Obsidian vault that is also an IntelliJ project (project root contains `.obsidian/`)
 
@@ -33,7 +33,10 @@ Requires JDK 21.
 ./gradlew build          # compile + test
 ./gradlew runIde         # launch sandbox IDE with plugin installed
 ./gradlew buildPlugin    # produce distributable .zip in build/distributions/
+./gradlew signPlugin     # produce signed .zip (requires SIGNING_KEY, SIGNING_CERT, SIGNING_KEY_PASSPHRASE env vars, or local private.pem + chain.crt)
 ```
+
+> **Versioning:** bump `version` in `build.gradle.kts` **and** `<version>` in `src/main/resources/META-INF/plugin.xml` before publishing a new release to the Marketplace.
 
 ## License
 
