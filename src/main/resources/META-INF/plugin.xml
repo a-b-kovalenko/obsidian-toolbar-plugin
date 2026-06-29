@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.akovalenko.obsidian-toolbar</id>
     <name>Open in Obsidian</name>
-    <version>1.1</version>
+    <version>1.2</version>
     <vendor>akovalenko</vendor>
 
     <description><![CDATA[
@@ -14,17 +14,11 @@
         <p>The button is disabled when the current project is not an Obsidian vault or no file is open in the editor.
         Also available via <b>Find Action</b> (<code>⌘⇧A</code> / <code>Ctrl+Shift+A</code>).</p>
 
-        <p><b>Note:</b> On first use, the plugin offers to install a helper script
-        (<code>open-obsidian-vault</code>) to <code>~/bin/</code>. The script is not removed
-        automatically when the plugin is uninstalled — delete it manually if needed.</p>
     ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
 
-    <extensions defaultExtensionNs="com.intellij">
-        <postStartupActivity implementation="com.akovalenko.obsidian.ObsidianStartupActivity"/>
-        <notificationGroup id="Open in Obsidian" displayType="BALLOON"/>
-    </extensions>
+
 
     <actions>
         <action id="OpenObsidianNote"

@@ -1,5 +1,6 @@
 package com.akovalenko.obsidian
 
+import com.intellij.openapi.util.SystemInfo
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -41,13 +42,25 @@ class OpenObsidianNoteAction : AnAction() {
         if (File(dir, ".obsidian").isDirectory) dir else null
 
     private fun openVault(vaultRoot: File) {
-        ProcessBuilder("open", "obsidian://open?vault=${encode(vaultRoot.name)}").start()
+        openUri("obsidian://open?vault=${encode(vaultRoot.name)}")
     }
 
     private fun openNote(vaultRoot: File, note: File) {
         val vault = encode(vaultRoot.name)
-        val file = encode(note.relativeTo(vaultRoot).path)
-        ProcessBuilder("open", "obsidian://open?vault=$vault&file=$file").start()
+        val file = encode(note.relativeTo(vaultRoot).invariantSeparatorsPath)
+        openUri("obsidian://open?vault=$vault&file=$file")
+    }
+
+    private fun openUri(uri: String) {
+        try {
+            when {
+                SystemInfo.isMac -> ProcessBuilder("open", uri).start()
+                SystemInfo.isWindows -> ProcessBuilder("cmd", "/c", "start", "", uri).start()
+                else -> ProcessBuilder("xdg-open", uri).start()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun encode(s: String): String =

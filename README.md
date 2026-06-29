@@ -18,12 +18,8 @@ Install from [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/com.ak
 ## Requirements
 
 - IntelliJ IDEA 2026.1 or later
-- macOS (uses `open` command to launch Obsidian)
+- Cross-platform support (macOS, Windows, Linux)
 - An Obsidian vault that is also an IntelliJ project (project root contains `.obsidian/`)
-
-## Helper script
-
-On first use, the plugin offers to install a helper script (`open-obsidian-vault`) to `~/bin/` for command-line use. The script is not removed automatically when the plugin is uninstalled — delete it manually if needed.
 
 ## Building from source
 

@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-# Opens an Obsidian vault by directory path, with proper URL encoding.
-# Usage: open-obsidian-vault /path/to/vault
-encoded=$(python3 -c "import urllib.parse,sys; print(urllib.parse.quote(sys.argv[1]))" "$*")
-open "obsidian://open?path=$encoded"

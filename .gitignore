@@ -7,3 +7,4 @@ build/
 .env
 private.pem
 chain.crt
+GEMINI.md
